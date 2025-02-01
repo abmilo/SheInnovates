@@ -18,7 +18,7 @@ export function AIAdvisor({ stage }) {
     try {
       console.log("Calling AI Financial API...");
 
-      const prompt = `You are an AI financial advisor. The user is at the "${stage}" stage of their financial journey. Provide personalized financial advice based on this question:\n\n"${input}. Aditionally remove any formatting for example: bold, italics, underline, etc."`;
+      const prompt = `You are an AI financial advisor. The user is at the "${stage}" stage of their financial journey. Provide personalized financial advice based on this question:\n\n"${input}. Aditionally remove any formatting for example: bold, italics, underline, that includefs **, __, or --.`;
 
       const payload = {
         contents: [
@@ -69,8 +69,10 @@ export function AIAdvisor({ stage }) {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-2xl font-semibold mb-4">AI Financial Advisor</h2>
+    <div className="bg-pittBlue shadow rounded-lg p-6">
+      <h2 className="text-2xl font-semibold mb-4 text-white">
+        AI Financial Advisor
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           value={input}
@@ -81,7 +83,7 @@ export function AIAdvisor({ stage }) {
         />
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300"
+          className="w-full bg-pittYellow text-white font-bold py-2 px-4 rounded-lg hover:bg-pittBlue transition duration-300"
           disabled={isLoading}
         >
           {isLoading ? "Loading..." : "Get Advice"}

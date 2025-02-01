@@ -10,6 +10,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        pittYellow: "#FFB81C",
+        pittBlue: "#003594",
       },
     },
   },

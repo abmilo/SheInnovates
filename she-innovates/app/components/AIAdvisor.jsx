@@ -8,7 +8,7 @@ export function AIAdvisor({ stage }) {
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [advice, setAdvice] = useState("");
-
+  const API_KEY = "AIzaSyAn4Pge_p1NfSdpJeL7a96EeRIjNbuoL_w";
   async function callFinancialAI() {
     if (!input.trim()) return;
 
@@ -23,11 +23,15 @@ export function AIAdvisor({ stage }) {
         contents: [{ parts: [{ text: prompt }] }],
       };
 
-      const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY`;
+      const API_URL =
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
+        API_KEY;
 
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(payload),
       });
 
@@ -37,13 +41,13 @@ export function AIAdvisor({ stage }) {
       }
 
       const data = await res.json();
-      const aiResponse =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "No advice available.";
-      setAdvice(aiResponse);
+      console.log(data["candidates"][0]["content"]["parts"][0]["text"]);
+      setAdvice(data["candidates"][0]["content"]["parts"][0]["text"]);
     } catch (err) {
-      console.error("Error calling AI API:", err.message);
-      setAdvice("An error occurred while fetching advice. Please try again.");
+      console.error("Error calling OpenAI API:", err.message);
+      setAdvice(
+        "An error occurred while processing your request. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +80,7 @@ export function AIAdvisor({ stage }) {
         />
         <motion.button
           type="submit"
-          className="w-full bg-pittYellow text-white font-bold py-2 px-4 rounded-lg hover:bg-pittBlue transition duration-300"
+          className="w-full bg-pittYellow text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300"
           disabled={isLoading}
           whileTap={{ scale: 0.95 }}
         >

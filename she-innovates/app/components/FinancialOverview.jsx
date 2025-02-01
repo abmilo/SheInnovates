@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { DollarSign, ArrowDownRight, PiggyBank } from 'lucide-react';
 
 const defaultOverviewData = {
   student: { income: 1200, expenses: 1000, savings: 200 },
@@ -57,27 +58,55 @@ export const FinancialOverview = ({ stage }) => {
       transition={{ duration: 0.5 }}
       whileHover={{ scale: 1.02 }}
     >
+      {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold text-white">
+        <h2 className="text-2xl font-bold text-white flex items-center">
           Financial Overview - {stage.charAt(0).toUpperCase() + stage.slice(1)} Stage
         </h2>
-        <div className="flex items-center space-x-2">
-          <Switch id="custom-mode" checked={isCustom} onCheckedChange={setIsCustom} />
-          <Label htmlFor="custom-mode" className="text-white">
-            Custom Mode
-          </Label>
-        </div>
       </div>
+
+      {/* Custom Mode Toggle */}
+      <div className="flex items-center space-x-4 mb-4">
+        {/* Label */}
+        <Label htmlFor="custom-mode" className="text-white font-semibold">Custom Mode</Label>
+
+        {/* Switch with Clickable Slider and Color Change */}
+        <Switch
+          id="custom-mode"
+          checked={isCustom}
+          onCheckedChange={setIsCustom}
+          className={`relative w-12 h-6 rounded-full cursor-pointer transition-colors duration-300 ease-in-out ${isCustom ? 'bg-blue-500' : 'bg-gray-300'}`}
+        >
+          {/* Inner Larger Slider Circle */}
+          <span
+            className={`absolute w-6 h-6 bg-white rounded-full transition-transform duration-300 ease-in-out transform ${isCustom ? "translate-x-6" : "translate-x-0"}`}
+          ></span>
+
+          {/* Inner Smaller Circle */}
+          <span
+            className={`absolute w-4 h-4 bg-white rounded-full transition-transform duration-300 ease-in-out transform ${isCustom ? "translate-x-2" : "translate-x-0"}`}
+          ></span>
+        </Switch>
+      </div>
+
+      {/* Financial Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {Object.entries(data).map(([key, value]) => (
+        {[
+          { label: 'Income', value: data.income, icon: <ArrowDownRight />, key: "income" },
+          { label: 'Expenses', value: data.expenses, icon: <DollarSign />, key: "expenses" },
+          { label: 'Savings', value: data.savings, icon: <PiggyBank />, key: "savings" }
+        ].map(({ label, value, icon, key }) => (
           <motion.div
             key={key}
-            className="text-center bg-white bg-opacity-10 rounded-lg p-4"
+            className="text-center bg-white bg-opacity-10 rounded-lg p-4 flex flex-col items-center"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            <h3 className="text-lg font-medium capitalize text-white mb-2">{key}</h3>
+            <div className="flex items-center space-x-2 text-white mb-2">
+              {icon}
+              <h3 className="text-lg font-medium capitalize">{label}</h3>
+            </div>
             {isCustom ? (
               <input
                 type="number"
@@ -97,29 +126,18 @@ export const FinancialOverview = ({ stage }) => {
                 {formatCurrency(value)}
               </motion.p>
             )}
-            {key !== "income" && (
-              <p className="text-sm text-white mt-2">({calculatePercentage(value, data.income)} of income)</p>
-            )}
           </motion.div>
         ))}
       </div>
+
+      {/* Reset Button */}
       {isCustom && (
-        <div className="mt-4 flex justify-end">
-          <Button onClick={resetCustomData} variant="secondary">
+        <div className="mt-4 text-center">
+          <Button onClick={resetCustomData} className="bg-white text-blue-700 font-bold px-4 py-2 rounded-lg">
             Reset to Default
           </Button>
         </div>
       )}
-      <motion.div
-        className="mt-4 text-sm text-white opacity-80"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        {isCustom
-          ? "Enter your income and expenses to see how it affects your savings. Savings are automatically calculated as Income - Expenses."
-          : "This overview provides a snapshot of typical financial figures for the selected life stage. Switch to Custom Mode to input your own values."}
-      </motion.div>
     </motion.div>
   )
 }

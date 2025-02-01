@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export function AIAdvisor({ stage }) {
   const [input, setInput] = useState("");
@@ -8,39 +9,25 @@ export function AIAdvisor({ stage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [advice, setAdvice] = useState("");
 
-  const GEMINI_API_KEY = "AIzaSyAn4Pge_p1NfSdpJeL7a96EeRIjNbuoL_w";
-
   async function callFinancialAI() {
     if (!input.trim()) return;
 
     setIsLoading(true);
-    setAdvice(""); // this clears previous response
+    setAdvice("");
     try {
       console.log("Calling AI Financial API...");
 
-      const prompt = `You are an AI financial advisor. The user is at the "${stage}" stage of their financial journey. Provide personalized financial advice based on this question:\n\n"${input}. Aditionally remove any formatting for example: bold, italics, underline, that includefs **, __, or --.`;
+      const prompt = `You are an AI financial advisor. The user is at the "${stage}" stage of their financial journey. Provide personalized financial advice based on this question:\n\n"${input}". Additionally, remove any formatting like **, __, or --.`;
 
       const payload = {
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
+        contents: [{ parts: [{ text: prompt }] }],
       };
 
-      const API_URL =
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
-        GEMINI_API_KEY;
+      const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY`;
 
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
@@ -69,7 +56,13 @@ export function AIAdvisor({ stage }) {
   };
 
   return (
-    <div className="bg-pittBlue shadow rounded-lg p-6">
+    <motion.div
+      className="bg-pittBlue shadow rounded-lg p-6"
+      initial={{ opacity: 0, y: 20 }} // Fade-in effect
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.02 }} // Slight hover scale-up effect
+    >
       <h2 className="text-2xl font-semibold mb-4 text-white">
         AI Financial Advisor
       </h2>
@@ -81,20 +74,26 @@ export function AIAdvisor({ stage }) {
           className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none"
           rows="4"
         />
-        <button
+        <motion.button
           type="submit"
           className="w-full bg-pittYellow text-white font-bold py-2 px-4 rounded-lg hover:bg-pittBlue transition duration-300"
           disabled={isLoading}
+          whileTap={{ scale: 0.95 }}
         >
           {isLoading ? "Loading..." : "Get Advice"}
-        </button>
+        </motion.button>
       </form>
       {response && (
-        <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+        <motion.div
+          className="mt-4 p-4 bg-gray-100 rounded-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <p className="font-semibold">{response}</p>
           <p>{advice}</p>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

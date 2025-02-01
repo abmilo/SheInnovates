@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [currentStage, setCurrentStage] = useState("career");
 
   return (
-    <div>
+    <div className="min-h-screen bg-blue-200">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">

@@ -6,3 +6,9 @@
     --pittBlue: #003594;
     --pittYellow: #FFB81C;
   }
+
+@layer base {
+  :root {
+        --radius: 0.5rem;
+    }
+}

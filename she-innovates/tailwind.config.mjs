@@ -1,15 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
+    darkMode: ["class"],
+    content: [
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        pittBlue: 'var(--pittBlue)',
-        pittYellow: 'var(--pittYellow)',
-      },
-    },
+  	extend: {
+  		colors: {
+  			pittBlue: 'var(--pittBlue)',
+  			pittYellow: 'var(--pittYellow)'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }

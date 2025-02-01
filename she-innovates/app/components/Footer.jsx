@@ -11,7 +11,7 @@ function Footer() {
     >
       <p className="text-white font-bold">
         {" "}
-        Created By Makayla, Nicky, Buzybee and Ibrahim
+        Created By Makayla, Nicky, Brianna and Ibrahim
       </p>
     </motion.div>
   );

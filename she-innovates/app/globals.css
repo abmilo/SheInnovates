@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --pittBlue: #003594;
+    --pittYellow: #FFB81C;
+  }

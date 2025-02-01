@@ -61,35 +61,34 @@ export function AIAdvisor({ stage }) {
 
   return (
     <motion.div
-      className="bg-pittBlue shadow rounded-lg p-6"
-      initial={{ opacity: 0, y: 20 }} // Fade-in effect
+      className="bg-gradient-to-br from-blue-800 to-blue-900 rounded-2xl shadow-xl p-6 m-20"
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.02 }} // Slight hover scale-up effect
+      whileHover={{ scale: 1.01 }}
     >
-      <h2 className="text-2xl font-semibold mb-4 text-white">
-        AI Financial Advisor
-      </h2>
+      <h2 className="text-2xl font-bold text-white mb-6">AI Financial Advisor</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask for financial advice..."
-          className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none"
+          className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-blue-200 border-2 border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
           rows="4"
         />
         <motion.button
           type="submit"
-          className="w-full bg-pittYellow text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300"
+          className="w-full bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-3 px-6 rounded-lg shadow-lg"
           disabled={isLoading}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
           {isLoading ? "Loading..." : "Get Advice"}
         </motion.button>
       </form>
       {response && (
         <motion.div
-          className="mt-4 p-4 bg-gray-100 rounded-lg"
+          className="mt-4 p-4 bg-white/10 rounded-lg text-white"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
